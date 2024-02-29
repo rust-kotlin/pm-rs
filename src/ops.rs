@@ -10,9 +10,8 @@ pub fn create(name: String, command_string: String, override_flag: bool) -> Resu
             if !override_flag {
                 println!("Process with name {} already exists", name);
                 return Ok(());
-            } else {
-                stop_process(process.pid)?;
             }
+            stop_process(process.pid)?;
         }
     }
 
@@ -21,9 +20,9 @@ pub fn create(name: String, command_string: String, override_flag: bool) -> Resu
     let start_time = chrono::Local::now().to_rfc3339();
 
     let process = ManagedProcess {
-        name: name.clone(),
-        command: command_string.clone(),
-        start_time: Some(start_time.clone()),
+        name,
+        command: command_string,
+        start_time: Some(start_time),
         pid,
     };
 
@@ -64,11 +63,11 @@ pub fn list() -> Result<()> {
                 ProcessStatus::Inactive => "Inactive",
             };
             vec![
-                process.name.clone(),
+                process.name,
                 process.pid.to_string(),
                 status.to_string(),
-                process.uptime.clone(),
-                process.command.clone(),
+                process.uptime,
+                process.command,
             ]
         })
         .collect::<Vec<Vec<String>>>()
@@ -103,9 +102,9 @@ pub fn start(name: String) -> Result<()> {
             let start_time = chrono::Local::now().to_rfc3339();
 
             ManagedProcess {
-                name: name.clone(),
-                command: process_detail.command.clone(),
-                start_time: Some(start_time.clone()),
+                name,
+                command: process_detail.command,
+                start_time: Some(start_time),
                 pid,
             }
         }
@@ -134,8 +133,8 @@ pub fn stop(name: String) -> Result<()> {
 }
 
 pub fn restart(name: String) -> Result<()> {
-    stop(name.clone())?;
-    start(name.clone())?;
+    stop(name)?;
+    start(name)?;
 
     Ok(())
 }

@@ -56,7 +56,7 @@ pub fn get_process_detail_by_name(name: &String) -> Result<Option<ProcessDetail>
         }
     };
 
-    Ok(Some(process_detail.clone()))
+    Ok(Some(process_detail))
 }
 
 pub fn sync_processes() -> Result<Vec<ProcessDetail>> {
@@ -132,10 +132,10 @@ fn get_process_detail(process: &ManagedProcess) -> ProcessDetail {
         ProcessStatus::Inactive => "Inactive".to_string(),
     };
 
-    let command = process.command.clone();
+    let command = process.command;
 
     ProcessDetail {
-        name: process.name.clone(),
+        name: process.name,
         pid,
         status,
         uptime,
